@@ -1,6 +1,9 @@
+<script setup lang="ts">
+  import '~/assets/styles/app.less'
+</script>
+
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
-  </div>
+  <main>
+    <NuxtPage />
+  </main>
 </template>
