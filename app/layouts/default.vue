@@ -20,5 +20,6 @@
 
   .app__main {
     padding: 35px;
+    overflow: hidden;
   }
 </style>
