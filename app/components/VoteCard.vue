@@ -1,24 +1,20 @@
 <script lang="ts" setup>
-  const {
-    isCompact = true,
-    title,
-    text,
-    dayPast,
-    likes,
-    disLikes
-  } = defineProps<{
-    title: string
-    text: string
-    dayPast: number
-    isCompact?: boolean
-    likes: number
-    disLikes: number
-  }>()
+  const { post } = defineProps<{ post: PostInterface }>()
+
+  const route = useRoute()
 
   const dayPastText = computed<string>(() => {
-    return dayPast
-      ? `${dayPast} ${useDeclansion(dayPast, ['день', 'дня', 'дней'])} назад`
+    const publishedDate = new Date(post.published_at)
+    const today = new Date()
+    const diffTime = Math.abs(publishedDate.getTime() - today.getTime())
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    return diffDays
+      ? `${diffDays} ${useDeclansion(diffDays, ['день', 'дня', 'дней'])} назад`
       : 'сегодня'
+  })
+  const isCompact = computed<boolean>(() => {
+    return route.name === 'index'
   })
 </script>
 
@@ -31,20 +27,24 @@
       </div>
       <p class="card__date">{{ dayPastText }}</p>
     </div>
-    <p class="card__title">{{ title }}</p>
+    <NuxtLink
+      class="card__title"
+      :to="{ name: 'post-id', params: { id: post.id } }"
+      >{{ post.title }}</NuxtLink
+    >
     <p class="card__text" :class="{ 'card__text--truncate': isCompact }">
-      {{ text }}
+      {{ post.content }}
     </p>
     <div class="card__footer">
       <div class="card__actions">
         <ActionBtn>
-          <template v-if="likes" #text>{{ likes }}</template>
+          <template v-if="post.likes" #text>{{ post.likes }}</template>
           <template #icon>
             <Icon name="mdi:thumb-up-outline" size="18px" />
           </template>
         </ActionBtn>
         <ActionBtn>
-          <template v-if="disLikes" #text>{{ disLikes }}</template>
+          <template v-if="post.dislikes" #text>{{ post.dislikes }}</template>
           <template #icon>
             <Icon name="mdi:thumb-down-outline" size="18px" />
           </template>
@@ -108,6 +108,10 @@
     margin: 0;
     font-weight: 400;
     font-size: 22px;
+
+    &:is(:hover, :focus) {
+      color: green;
+    }
   }
 
   .card__text {

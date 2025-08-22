@@ -1,14 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const config = useRuntimeConfig()
+  const API_URL = config.public.apiUrl
+
+  const { data: postsData } = await useFetch<{ posts: PostInterface[] }>(
+    API_URL + '/posts',
+    {
+      query: {
+        page: 1,
+        page_size: 10
+      }
+    }
+  )
+</script>
 
 <template>
   <div class="vote-list">
-    <VoteCard
-      title="Добавить функцию голосования"
-      text="Попробовать добавить в приложение функцию голосования, которая позволит определить, какая фича более полезна, а какая нет. После добавления поста появляется"
-      :day-past="4"
-      :likes="10"
-      :dis-likes="1"
-    />
+    <VoteCard v-for="post in postsData?.posts" :key="post.id" :post />
   </div>
 </template>
 
