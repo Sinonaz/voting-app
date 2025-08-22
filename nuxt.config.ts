@@ -8,6 +8,14 @@ export default defineNuxtConfig({
       mode: 'out-in'
     }
   },
+  imports: {
+    dirs: ['interfaces']
+  },
+  runtimeConfig: {
+    public: {
+      apiUrl: ''
+    }
+  },
 
   modules: [
     '@nuxt/eslint',
