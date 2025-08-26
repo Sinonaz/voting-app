@@ -4,6 +4,7 @@
   const {
     public: { apiUrl: API_URL }
   } = useRuntimeConfig()
+  const votingStore = useVotingStore()
   const route = useRoute()
   const router = useRouter()
 
@@ -11,12 +12,12 @@
   const query = computed(() => {
     return {
       page: route.query.page ?? 1,
-      page_size: 2,
+      page_size: 10,
       sort: route.query.sort || 'rating'
     }
   })
 
-  const { data: postsData } = await useFetch<{
+  const { data: postsData, refresh } = await useFetch<{
     posts: PostInterface[]
     page: number
     total_pages: number
@@ -47,7 +48,12 @@
       />
     </div>
     <div class="vote-list">
-      <VoteCard v-for="post in postsData?.posts" :key="post.id" :post />
+      <VoteCard
+        v-for="post in postsData?.posts"
+        :key="post.id"
+        :post
+        @voted="refresh"
+      />
     </div>
 
     <div class="main__pagination pagination">
