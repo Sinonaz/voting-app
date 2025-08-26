@@ -1,6 +1,9 @@
 <script lang="ts" setup>
   const { post } = defineProps<{ post: PostInterface }>()
 
+  const emit = defineEmits<{ (e: 'voted'): void }>()
+
+  const votingStore = useVotingStore()
   const route = useRoute()
 
   const dayPastText = computed<string>(() => {
@@ -37,16 +40,44 @@
     </p>
     <div class="card__footer">
       <div class="card__actions">
-        <ActionBtn>
+        <ActionBtn
+          @click="
+            () => {
+              votingStore.like(post.id)
+              emit('voted')
+            }
+          "
+        >
           <template v-if="post.likes" #text>{{ post.likes }}</template>
           <template #icon>
-            <Icon name="mdi:thumb-up-outline" size="18px" />
+            <Icon
+              :name="
+                votingStore.isVoted(post.id) === 'like'
+                  ? 'mdi:thumb-up'
+                  : 'mdi:thumb-up-outline'
+              "
+              size="18px"
+            />
           </template>
         </ActionBtn>
-        <ActionBtn>
+        <ActionBtn
+          @click="
+            () => {
+              votingStore.dislike(post.id)
+              emit('voted')
+            }
+          "
+        >
           <template v-if="post.dislikes" #text>{{ post.dislikes }}</template>
           <template #icon>
-            <Icon name="mdi:thumb-down-outline" size="18px" />
+            <Icon
+              :name="
+                votingStore.isVoted(post.id) === 'dislike'
+                  ? 'mdi:thumb-down'
+                  : 'mdi:thumb-down-outline'
+              "
+              size="18px"
+            />
           </template>
         </ActionBtn>
       </div>
