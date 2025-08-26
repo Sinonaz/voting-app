@@ -4,15 +4,15 @@
   const {
     public: { apiUrl: API_URL }
   } = useRuntimeConfig()
-  const votingStore = useVotingStore()
   const route = useRoute()
   const router = useRouter()
 
   const sort = ref<string>(route.query.sort?.toString() ?? 'rating')
+  const pageNumber = ref<number>(1)
   const query = computed(() => {
     return {
       page: route.query.page ?? 1,
-      page_size: 10,
+      page_size: 2,
       sort: route.query.sort || 'rating'
     }
   })
@@ -26,9 +26,9 @@
     query
   })
 
-  watch(sort, (value) =>
+  watch([sort, pageNumber], ([sortValue, pageNumberValue]) =>
     router.replace({
-      query: { page: query.value.page, sort: value }
+      query: { page: pageNumberValue, sort: sortValue }
     })
   )
 </script>
@@ -57,14 +57,15 @@
     </div>
 
     <div class="main__pagination pagination">
-      <NuxtLink
+      <button
         v-for="page in postsData?.total_pages"
         :key="page"
         class="link"
         :class="{ active: query.page == page }"
-        :to="{ query: { page, sort } }"
-        >{{ page }}</NuxtLink
+        @click="pageNumber = page"
       >
+        {{ page }}
+      </button>
     </div>
   </div>
 </template>
