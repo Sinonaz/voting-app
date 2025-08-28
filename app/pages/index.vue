@@ -1,9 +1,7 @@
 <script setup lang="ts">
   import SortBtn from '~/components/SortBtn.vue'
 
-  const {
-    public: { apiUrl: API_URL }
-  } = useRuntimeConfig()
+  const API_URL = useAPI()
   const route = useRoute()
   const router = useRouter()
 

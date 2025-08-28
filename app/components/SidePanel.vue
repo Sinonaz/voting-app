@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const authStore = useAuthStore()
+</script>
 
 <template>
   <aside class="aside">
@@ -6,11 +8,19 @@
       <Icon name="mdi:home-variant" size="24px" />
     </NuxtLink>
 
-    <img v-if="false" width="24px" height="24px" src="" alt="" />
+    <img v-if="authStore.token" width="24px" height="24px" src="" alt="" />
 
-    <NuxtLink to="/auth">
+    <NuxtLink v-if="!authStore.token" to="/auth">
       <Icon name="mdi:login-variant" size="24px" />
     </NuxtLink>
+    <button
+      v-else
+      type="button"
+      class="p-0 bg-none border-none cursor-pointer hover:text-red"
+      @click="authStore.clearToken"
+    >
+      <Icon name="mdi:exit-run" size="24px" />
+    </button>
   </aside>
 </template>
 
