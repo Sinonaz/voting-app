@@ -87,7 +87,10 @@
             <Icon name="mdi:archive-outline" size="18px" />
           </template>
         </ActionBtn>
-        <ActionBtn is-reverse>
+        <ActionBtn
+          is-reverse
+          @click="navigateTo({ name: 'post-edit-id', params: { id: post.id } })"
+        >
           <template #text>Изменить</template>
           <template #icon>
             <Icon name="mdi:pencil-outline" size="18px" />
