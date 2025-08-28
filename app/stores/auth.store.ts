@@ -4,6 +4,7 @@ export const useAuthStore = defineStore(
     const API_URL = useAPI()
 
     const token = ref<string | undefined>()
+    const user = ref<UserInterface | undefined>()
 
     async function login(email: string, password: string): Promise<void> {
       const data = await $fetch<{ token: string; user: UserInterface }>(
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore(
       )
 
       token.value = data.token
+      user.value = data.user
     }
 
     function clearToken(): void {
