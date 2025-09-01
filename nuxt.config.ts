@@ -25,6 +25,8 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    '@unocss/nuxt'
+    '@unocss/nuxt',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap'
   ]
 })
