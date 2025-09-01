@@ -1,4 +1,9 @@
 <script setup lang="ts">
+  useSeoMeta({
+    title: 'Create post',
+    description: ''
+  })
+
   definePageMeta({
     middleware: 'auth'
   })

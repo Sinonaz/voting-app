@@ -6,6 +6,10 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'page',
       mode: 'out-in'
+    },
+    head: {
+      title: 'Main',
+      titleTemplate: '%s | Voting app',
     }
   },
   imports: {

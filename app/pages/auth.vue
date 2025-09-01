@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  useSeoMeta({
+    title: 'Authorization',
+    description: ''
+  })
   const authStore = useAuthStore()
 
   const email = ref<string | undefined>()
