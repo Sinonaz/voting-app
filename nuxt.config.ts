@@ -6,6 +6,9 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'page',
       mode: 'out-in'
+    },
+    head: {
+      titleTemplate: '%s | VoteApp',
     }
   },
   imports: {
@@ -25,6 +28,8 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
-    '@unocss/nuxt'
+    '@unocss/nuxt',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap'
   ]
 })

@@ -6,6 +6,11 @@
   const { data: post } = await useFetch<PostInterface>(
     API_URL + '/posts/' + route.params.id
   )
+
+  useSeoMeta({
+    title: post.value?.title,
+    description: ''
+  })
 </script>
 
 <template>
