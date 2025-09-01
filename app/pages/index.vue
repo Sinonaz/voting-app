@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import SortBtn from '~/components/SortBtn.vue'
 
+  useSeoMeta({
+    title: 'main'
+  })
+
   const API_URL = useAPI()
   const route = useRoute()
   const router = useRouter()

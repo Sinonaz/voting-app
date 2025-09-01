@@ -8,8 +8,7 @@ export default defineNuxtConfig({
       mode: 'out-in'
     },
     head: {
-      title: 'Main',
-      titleTemplate: '%s | Voting app',
+      titleTemplate: '%s | VoteApp',
     }
   },
   imports: {
