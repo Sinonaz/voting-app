@@ -1,7 +1,10 @@
 <script lang="ts" setup>
   const { post } = defineProps<{ post: PostInterface }>()
 
-  const emit = defineEmits<{ (e: 'voted'): void }>()
+  const emit = defineEmits<{
+    (e: 'voted'): void
+    (e: 'delete', id: number): void
+  }>()
 
   const votingStore = useVotingStore()
   const route = useRoute()
@@ -82,7 +85,7 @@
         </ActionBtn>
       </div>
       <div class="card__actions">
-        <ActionBtn>
+        <ActionBtn @click="emit('delete', post.id)">
           <template #icon>
             <Icon name="mdi:archive-outline" size="18px" />
           </template>

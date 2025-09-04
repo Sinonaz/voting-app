@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import SortBtn from '~/components/SortBtn.vue'
 
+  const authStore = useAuthStore()
   const API_URL = useAPI()
   const route = useRoute()
   const router = useRouter()
@@ -24,6 +25,17 @@
     query
   })
 
+  async function deletePost(id: number): Promise<void> {
+    await $fetch(API_URL + `/posts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${authStore.token}`
+      }
+    })
+
+    await refresh()
+  }
+
   watch([sort, pageNumber], ([sortValue, pageNumberValue]) =>
     router.replace({
       query: { page: pageNumberValue, sort: sortValue }
@@ -33,6 +45,20 @@
 
 <template>
   <div class="main">
+    <button
+      v-if="authStore.token"
+      type="button"
+      class="flex flex-items-center flex-wrap gap-8px fw-300 text-16px bg-none b-none p-0 cursor-pointer mb-28px hover:text-gray"
+      @click="navigateTo({ name: 'post' })"
+    >
+      <span
+        class="w-34px h-34px rounded-full flex flex-items-center justify-center bg-[#F2F2F2] text-black"
+      >
+        +
+      </span>
+      Добавить новое обновление для голосования
+    </button>
+
     <div class="main__sort">
       <SortBtn
         label="По дате"
@@ -51,6 +77,7 @@
         :key="post.id"
         :post
         @voted="refresh"
+        @delete="(id) => deletePost(id)"
       />
     </div>
 
